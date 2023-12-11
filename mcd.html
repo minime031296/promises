@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .inp > input {
+            position: absolute;
+            flex-direction: row;
+        }
+        
+        #secondary {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px; 
+        }
+        
+        #display {
+            margin-bottom: 20px; 
+        }
+        
+        #order-id {
+            align-self: flex-end; 
+            margin-right:200px;
+        }
+        
+        #foodImage {
+            display: block;
+            margin: 0 auto; 
+        }
+        
+        #order-food-btn {
+            margin-top: 10px; 
+            
+        }
+    </style>
+</head>
+<body>
+    <form onsubmit="display_order_img(event)" id="form">
+        <label for="ordering" style="font-size:30px;"><b>MENU</b></label>
+        <div class="inp">
+            <input type="radio" name="food" value="Maharaja Mc"><label for="">&emsp;&emsp13;Maharaja Mc</label>
+        </div>
+        <div class="inp">
+            &emsp; &emsp;&emsp13;&emsp;&emsp13; <input type="radio" name="food" value="McAloo Tikki Burger®"><label for="">&emsp;&emsp13;McAloo Tikki Burger®</label>
+        </div>
+        <div class="inp">
+            &emsp;&emsp13;&emsp13;&emsp13;&emsp13;&emsp13;&emsp13;&emsp13;&emsp13;<input type="radio" name="food" value="Dosa Masala Burger®"><label for="">&emsp;&emsp13;Dosa Masala Burger®</label>
+        </div>
+        <div class="inp">
+            <input type="radio" name="food" value="McVeggie®"><label for="">&emsp;&emsp13;McVeggie®</label>
+        </div>
+        <div id="secondary "> 
+            <button type="button" id="order-food-btn" onclick="display_order_img(event)">Order Food</button>
+
+            <h1 id="display"></h1> 
+            <div id="order-id"></div><br>
+            <img id="foodImage" src="" alt="">
+        </div>
+    </form>
+
+    <script>
+        function ord_id() {
+            return Math.floor(Math.random() * 10000);
+        }
+
+        function display_order_img() {
+            let orderIdDiv = document.getElementById("order-id");
+            let foodImageElement = document.getElementById("foodImage");
+
+            let selectedFood = document.querySelector("input[name='food']:checked");
+
+            if (selectedFood) {
+                let orderPromise = new Promise((resolve) => {
+                    let randomSeconds = Math.floor(Math.random() * 500) + 1000;
+                    console.log(randomSeconds) 
+                    setTimeout((randomSeconds) => {
+                        resolve();
+                    }, randomSeconds);
+                });
+
+                orderPromise.then(() => {
+                    let foodName = selectedFood.value; 
+                    document.getElementById("display").innerText = foodName;
+                    orderIdDiv.innerText = `Order ID: ${ord_id()}`;
+                    getFoodImage(foodName); 
+                });
+            } else {
+                alert("Please select a food item.");
+            }
+        }
+
+        function getFoodImage(foodName) {
+            let foodImageElement = document.getElementById("foodImage");
+            switch(foodName){
+                case "Maharaja Mc": foodImageElement.src = "./img/image1.jpg";
+                break;
+                case "McAloo Tikki Burger®": foodImageElement.src = "./img/image2.jpg";
+                break;
+                case "Dosa Masala Burger®": foodImageElement.src = "./img/image3.jpg";
+                break;
+                case "McVeggie®": foodImageElement.src = "./img/image4.jpg";
+            }
+        } 
+
+        ord_id()
+    </script>
+</body>
+</html>
